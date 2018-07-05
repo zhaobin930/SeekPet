@@ -47,6 +47,11 @@ namespace SEEKPET.Module
                 ddlIsImmune.SelectedValue = Convert.ToBoolean(objSee_AnimalInfo.IsImmune) == true ? "是" : "否";
                 ddlIsJY.SelectedValue = objSee_AnimalInfo.Par1;
                 imgShow.Src = _filedir+objSee_AnimalInfo.Picture.ToString();
+                
+            }
+            See_PersonInfo objSee_PersonInfo = SqlDataProvider.SqlDataProvider.GetInfoSee_PersonInfoByUserID(this.UserId);
+            if ((objSee_PersonInfo != null))
+            {
                 if (objSee_PersonInfo.Code != "")
                 {
                     chkHasCode.Checked = true;
@@ -61,6 +66,29 @@ namespace SEEKPET.Module
         {
             try
             {
+                if (!Page.IsValid)
+                {
+                    return;
+                }
+                if (chkHasCode.Checked)
+                {
+                    //判断code
+                    See_Code objcode = SqlDataProvider.SqlDataProvider.GetInfoSee_CodeByCode(txtCode.Text);
+                    if (objcode != null)
+                    {
+                        if (objcode.UserID > 0 && objcode.UserID != this.UserId)
+                        {
+                            Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "resultTip", "<script>alert('芯片编码已使用！');</script>");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "resultTip", "<script>alert('芯片编码不存在！');</script>");
+                        return;
+                    }
+                }
+
                 See_AnimalInfo objSee_AnimalInfo = new See_AnimalInfo();
                 EasySite.Common.Utilities.CBO.InitializeObject(objSee_AnimalInfo, typeof(See_AnimalInfo));
 
@@ -87,6 +115,15 @@ namespace SEEKPET.Module
                 //objSee_AnimalInfo.Par4 = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtPar4.Text);
                 //objSee_AnimalInfo.Par5 = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtPar5.Text);
                 SqlDataProvider.SqlDataProvider.InsertOrUpdateSee_AnimalInfo(objSee_AnimalInfo);
+
+                See_PersonInfo objSee_PersonInfo = new See_PersonInfo();
+                objSee_PersonInfo.UserID = this.UserId;
+                objSee_PersonInfo.Code = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtCode.Text);
+                SqlDataProvider.SqlDataProvider.InsertOrUpdateSee_PersonInfo(objSee_PersonInfo);
+                if (chkHasCode.Checked && txtCode.Text != "")
+                {
+                    SqlDataProvider.SqlDataProvider.UpdateSee_CodeInfoByCode(UserId, txtCode.Text);
+                }
                 Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "resultTip", "<script>alert('提交成功！');window.location.href=window.location.href;</script>");
             }
             catch (Exception exc)

@@ -54,6 +54,19 @@
         img.src = "/images/thumbnail.jpg";
     }
     
+    function CheckCode(obj, args) {
+        if (jQuery('#<%=chkHasCode.ClientID %>').attr('checked')) {
+            if (args.Value != "") {
+                args.IsValid = true;
+            }
+            else {
+                args.IsValid = false;
+            }
+        }
+        else {
+            args.IsValid = true;
+        }
+    }
 </script>
 
 <div class='mainpage'>

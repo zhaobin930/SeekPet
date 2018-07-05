@@ -2,19 +2,7 @@
     Inherits="SEEKPET.Module.PersonalInfoEdit" %>
 <link rel="stylesheet" type="text/css" href='<%=ModulePath %>css/module.css' />
 <script>
-    function CheckCode(obj, args) {
-        if (jQuery('#<%=chkHasCode.ClientID %>').attr('checked')) {
-            if (args.Value != "") {
-                args.IsValid = true;
-            }
-            else {
-                args.IsValid = false;
-            }
-        }
-        else {
-            args.IsValid = true;
-        }
-    }
+    
 </script>
 <div class='mainpage'>
     <h2 class="infotitle">
