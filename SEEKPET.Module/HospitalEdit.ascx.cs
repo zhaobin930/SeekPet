@@ -91,7 +91,10 @@ namespace SEEKPET.Module
                 //txtCoorX.Text = objSee_Hospital.CoorX.ToString();
                 //txtCoorY.Text = objSee_Hospital.CoorY.ToString();
                 imgShow.Src = _filedir + objSee_Hospital.Picture.ToString();
+                hidImgName.Value = objSee_Hospital.Picture.ToString();
                 txtDescription.Text = objSee_Hospital.Description.ToString();
+                //绑定城市
+                Page.ClientScript.RegisterStartupScript(Page.ClientScript.GetType(), "myscript", "<script>setvalue('"+objSee_Hospital.Par1+"');</script>");
             }
             else
             {
@@ -124,7 +127,7 @@ namespace SEEKPET.Module
                 objSee_Hospital.Address = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtAddress.Text);
                 objSee_Hospital.Picture = hidImgName.Value;
                 objSee_Hospital.Description = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtDescription.Text);
-
+                objSee_Hospital.Par1 = hidcity.Value;
                 if (!EasySite.Common.Utilities.Null.IsNull(ItemID))
                 {
                     SqlDataProvider.SqlDataProvider.UpdateSee_Hospital(objSee_Hospital);

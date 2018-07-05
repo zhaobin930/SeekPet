@@ -2,7 +2,15 @@
     Inherits="SEEKPET.Module.HospitalEdit" %>
 <link rel="stylesheet" type="text/css" href='<%=ModulePath %>css/module.css' />
 <script src="/DesktopModules/SEEKPET.Module/js/AjaxUpload.js" type="text/javascript"></script>
+<script type="text/javascript" src="/DesktopModules/SEEKPET.Module/js/jquery.min.js"></script>
+<script>
+    jQuery.noConflict();
+</script>
+<script src="/DesktopModules/SEEKPET.Module/js/jquery.citys.js" type="text/javascript"></script>
 <script type="text/javascript">
+    jQuery(function () {
+        jQuery('#demo').citys({ code: 110000 });
+    });
     window.onload = function () {
         init();  //初始化  
     }
@@ -36,7 +44,7 @@
                     alert("您上传的图片格式不对，请重新选择！");
                 }
                 else if (flagValue == "2") {
-                    alert("您上传的图片大于2M，请重新选择！");
+                    alert("您上传的图片大于1M，请重新选择！");
                 }
                 else if (flagValue == "3") {
                     alert("图片上传失败！");
@@ -53,25 +61,45 @@
         hidPut.value = "";
         img.src = "/images/thumbnail.jpg";
     }
-    
+
+    function getvalue() {
+        var city = "";
+        var province = jQuery("#province").find("option:selected").text();
+        if (province == "北京市" || province == "天津市" || province == "上海市" || province == "重庆市") {
+            city = province;
+        }
+        else {
+            city = jQuery("#city").find("option:selected").text();
+        }
+        jQuery('#<%=hidcity.ClientID %>').val(city);
+        console.log(city);
+        return true;
+    }
+    function setvalue(province) {
+        if (province == "北京市" || province == "天津市" || province == "上海市" || province == "重庆市") {
+            jQuery("#province").val(province);
+        }
+        else {
+            jQuery('#demo').citys({ valueType: 'name', city: province });
+        }
+
+    }
 </script>
 <style type="text/css">
-    /*上传文件*/.uploadFile
-    {
+    /*上传文件*/ .uploadFile {
         margin-bottom: 10px;
     }
-    /*上传图片*/.uploadImg
-    {
+    /*上传图片*/ .uploadImg {
     }
-    .uploadImg img
-    {
-        width: 102px;
-        height: 64px;
-        border: 1px solid #CCCCCC;
-        display: block;
-    }
-    .typeclass
-    {
+
+        .uploadImg img {
+            width: 102px;
+            height: 64px;
+            border: 1px solid #CCCCCC;
+            display: block;
+        }
+
+    .typeclass {
         font-size: larger;
         width: 100%;
         text-align: center;
@@ -80,19 +108,35 @@
 <!--******************************编辑信息页面代码********************************-->
 <table class='moduletable' cellpadding='3' cellspacing='1' border='0' style="width: 100%">
     <tr>
-        <td class='tdLeft' width="20%">
-            医院名称：
+        <td class='tdLeft' width="20%">医院名称：
         </td>
         <td class='tdRight'>
-            <asp:TextBox ID='txtHospitalName' MaxLength='50' runat='server' CssClass='normaltext' />
+            <asp:TextBox ID='txtHospitalName' MaxLength='50' runat='server' CssClass='normaltext' /><asp:RequiredFieldValidator
+                ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtHospitalName"
+                ValidationGroup="edit"></asp:RequiredFieldValidator>
         </td>
     </tr>
     <tr>
-        <td class='tdLeft'>
-            医院地址：
+        <td class='tdLeft'>医院地址：
         </td>
         <td class='tdRight'>
-            <asp:TextBox ID='txtAddress' MaxLength='50' runat='server' CssClass='normaltext' />
+            <asp:TextBox ID='txtAddress' MaxLength='50' runat='server' CssClass='normaltext' /><asp:RequiredFieldValidator
+                ID="RequiredFieldValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtAddress"
+                ValidationGroup="edit"></asp:RequiredFieldValidator>
+        </td>
+    </tr>
+    <tr>
+        <td class='tdLeft'>医院城市：
+        </td>
+        <td class='tdRight'>
+            <div id="demo" class="citys">
+                <p>
+                    <asp:HiddenField runat="server" ID="hidcity" />
+                    <select name="province" id="province"></select>
+                    <select name="city" id="city"></select>
+                    <%--<select name="area"></select>--%>
+                </p>
+            </div>
         </td>
     </tr>
     <%--<tr>
@@ -105,8 +149,7 @@
 		<td class='tdRight'><asp:TextBox ID='txtCoorY' MaxLength='50' runat='server' CssClass='normal' /></td>
 	</tr>--%>
     <tr>
-        <td class='tdLeft'>
-            照片：
+        <td class='tdLeft'>照片：
         </td>
         <td class='tdRight'>
             <div class="uploadImg">
@@ -118,19 +161,20 @@
         </td>
     </tr>
     <tr>
-        <td class='tdLeft'>
-            描述：
+        <td class='tdLeft'>描述：
         </td>
         <td class='tdRight'>
             <asp:TextBox ID='txtDescription' MaxLength='500' TextMode="MultiLine" Height="100px"
-                runat='server' CssClass='normaltext' />
+                runat='server' CssClass='normaltext' /><asp:RequiredFieldValidator
+                    ID="RequiredFieldValidator3" runat="server" ErrorMessage="*" ControlToValidate="txtDescription"
+                    ValidationGroup="edit"></asp:RequiredFieldValidator>
         </td>
     </tr>
 </table>
 <table cellpadding='0' cellspacing='3' border='0' align='center'>
     <tr>
         <td>
-            <asp:LinkButton runat='server' ID='cmdCommand' CssClass='normallinkbutton' OnClick="cmdCommand_Click">确定</asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:HyperLink
+            <asp:LinkButton runat='server' ID='cmdCommand' CssClass='normallinkbutton' OnClick="cmdCommand_Click" OnClientClick="return getvalue()" ValidationGroup="edit">确定</asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:HyperLink
                 runat='server' ID='hlkExit' CssClass='normallinkbutton'>取消</asp:HyperLink>
         </td>
     </tr>

@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SeeHome.ascx.cs" Inherits="SEEKPET.Module.SeeHome" %>
+<%@ Register Assembly="AspNetPager" Namespace="Wuqi.Webdiyer" TagPrefix="webdiyer" %>
 <link rel="stylesheet" type="text/css" href='<%=ModulePath %>css/module.css' />
 <div class="mainpage">
     <asp:Repeater runat="server" ID="reList">
@@ -10,7 +11,7 @@
         <ItemTemplate>
             <li class='homeli'>
                 <div class="homepetimg">
-                    <img src='/DesktopModules/SEEKPET.Module/image/home1.gif' width="47px" />
+                    <img src='<%#"/Portals/SEEKPETInfo/"+Eval("Par1").ToString() %>' width="47px" />
                 </div>
                 <div class="homepetitem">
                     <p class='p1'>
@@ -30,7 +31,7 @@
         <AlternatingItemTemplate>
             <li class='homeli'>
                 <div class="homepetimg">
-                    <img src='/DesktopModules/SEEKPET.Module/image/home2.gif' width="47px" />
+                    <img src='<%#"/Portals/SEEKPETInfo/"+Eval("Par1").ToString() %>' width="47px" />
                 </div>
                 <div class="homepetitem">
                     <p class='p1'>
@@ -51,4 +52,12 @@
             </ul></div>
         </FooterTemplate>
     </asp:Repeater>
+    <div style="clear: both;padding-bottom:15px;">
+                <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" NumericButtonCount="10"
+                    CustomInfoHTML="<font color='red'><b>%currentPageIndex%</b></font>/%PageCount%&nbsp;总: %RecordCount%"
+                    pagesize="15" UrlPaging="true" NumericButtonTextFormatString="[{0}]" ShowCustomInfoSection="left"
+                    FirstPageText="首页" LastPageText="末页" NextPageText="下页" PrevPageText="上页" Font-Names="Arial"
+                    AlwaysShow="true" ShowInputBox="Always" SubmitButtonText="跳转" SubmitButtonStyle="botton"
+                    OnPageChanged="AspNetPager1_PageChanged">
+                </webdiyer:AspNetPager></div>
 </div>

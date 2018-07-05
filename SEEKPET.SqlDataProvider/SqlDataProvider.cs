@@ -686,7 +686,7 @@ namespace SEEKPET.SqlDataProvider
         }
         #endregion
 
-        #region " --------------- 基本方法 --------------- "
+        #region " --------------- See_Seek --------------- "
 
         /// <summary>
         /// 获取数据信息 单条
@@ -760,6 +760,13 @@ namespace SEEKPET.SqlDataProvider
             string strFilter = "";
             if (strConditions != null && strConditions != String.Empty) strFilter = "  WHERE " + strConditions;
             return Microsoft.ApplicationBlocks.Data.SqlHelper.ExecuteDataset(strDBConnectionString, CommandType.Text, "SELECT * FROM See_Seek" + strFilter).Tables[0];
+        }
+
+        public static Int32 GetSee_SeekCount(string strConditions)
+        {
+            string strFilter = "";
+            if (strConditions != null && strConditions != String.Empty) strFilter = "  WHERE " + strConditions;
+            return Convert.ToInt32(Microsoft.ApplicationBlocks.Data.SqlHelper.ExecuteScalar(strDBConnectionString, CommandType.Text, "SELECT COUNT(1) FROM See_Seek" + strFilter));
         }
         #endregion
 

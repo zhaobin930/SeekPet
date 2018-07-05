@@ -103,9 +103,9 @@ namespace SEEKPET.Module.appservices
                         return "1";
                     }
 
-                    //判断文件大小  
+                    //判断文件大小  (1M）
                     int length = hpf.ContentLength;
-                    if (length > 2048000)
+                    if (length > 1*1024*1024)
                     {
                         return "2";
                     }

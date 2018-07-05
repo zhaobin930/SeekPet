@@ -38,9 +38,14 @@ namespace SEEKPET.Module
             }
         }
 
-        void BindData()
+        protected void BindData()
         {
-            string filter = " 1=1 ";
+            string city = "北京市";
+            if (Request.Cookies["city"] != null)
+            {
+                city = Server.UrlDecode(Request.Cookies["city"].Value).Trim();
+            }
+            string filter = " par1='" + city + "'";
             int page = 1;
             if (Request.QueryString["page"] != null)
                 page = int.Parse(Request.QueryString["page"].ToString());

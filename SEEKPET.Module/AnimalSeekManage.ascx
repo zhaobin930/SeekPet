@@ -31,6 +31,11 @@
         <asp:BoundColumn DataField="lossplace" SortExpression="lossplace" HeaderText="走失地点"></asp:BoundColumn>
         <asp:BoundColumn DataField="contract" SortExpression="contract" HeaderText="联系电话"></asp:BoundColumn>
         <asp:BoundColumn DataField="city" SortExpression="city" HeaderText="城市"></asp:BoundColumn>
+        <asp:TemplateColumn HeaderStyle-Width="40" ItemStyle-HorizontalAlign="Center">
+            <ItemTemplate>
+                <asp:Image runat="server" ID="imgPicture" height="50px" BorderStyle="None" ImageUrl='<%#"/Portals/SEEKPETInfo/"+Eval("Par1").ToString() %>' ImageAlign="AbsMiddle"></asp:Image>
+            </ItemTemplate>
+        </asp:TemplateColumn>
         <asp:BoundColumn DataField="Createtime" SortExpression="Createtime" HeaderText="提交时间"></asp:BoundColumn>
         <asp:TemplateColumn HeaderStyle-Width="40" ItemStyle-HorizontalAlign="Center">
             <ItemTemplate>

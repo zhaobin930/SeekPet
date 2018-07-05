@@ -44,7 +44,7 @@ namespace SEEKPET.Module
                 {
                     objSee_Seek.City = "北京市";
                 }
-
+                objSee_Seek.Par1 = hidImgName.Value;
                 objSee_Seek.CreateTime = DateTime.Now;
 
                 //objSee_Seek.Par1 = PeoNormalControl.CommonClass.Utility.ReplaceSepChars(txtPar1.Text);

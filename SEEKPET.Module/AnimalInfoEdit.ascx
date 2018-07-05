@@ -36,7 +36,7 @@
                     alert("您上传的图片格式不对，请重新选择！");
                 }
                 else if (flagValue == "2") {
-                    alert("您上传的图片大于2M，请重新选择！");
+                    alert("您上传的图片大于1M，请重新选择！");
                 }
                 else if (flagValue == "3") {
                     alert("图片上传失败！");
